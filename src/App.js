@@ -34,6 +34,13 @@ const SentenceLineDisplay = ({targetText, inputText}) => {
 };
 
 
+const PressEnter = ({a, b}) => (a.length === b.length) ? (
+  <p>Press Enter</p>
+) : (
+  <p>keep on going!</p>
+);
+
+
 class App extends Component {
   state = {
     inputText: "",
@@ -68,6 +75,7 @@ class App extends Component {
             <SentenceLineDisplay
               inputText={this.state.inputText}
               targetText={this.state.lineFeed[0]} />
+            <PressEnter a={this.state.inputText} b={this.state.lineFeed[0]} />
             <input 
               autoFocus={true}
               type="text"
