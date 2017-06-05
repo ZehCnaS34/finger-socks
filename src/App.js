@@ -6,24 +6,24 @@ const SentenceLineDisplay = ({targetText, inputText}) => {
   let spans = inputText.split('').map((char, idx) => {
     if (char === targetText[idx]) {
       return <span key={idx} style={{color: 'green'}}>{char}</span>
+    }
+
+    if (char === ' ') {
+      return (targetText[idx]) ? (
+        <span key={idx} style={{textDecoration: 'underline', color: 'red'}}>{targetText[idx]}</span>
+      ) : (
+        <span key={idx} style={{backgroundColor: 'red'}}>{' '}</span>
+      )
+    } else if (targetText[idx] === ' ') {
+      return (
+        <span key={idx} style={{backgroundColor: 'red'}}>{' '}</span>
+      )
     } else {
-      if (char === ' ') {
-        return (targetText[idx]) ? (
-          <span key={idx} style={{textDecoration: 'underline', color: 'red'}}>{targetText[idx]}</span>
-        ) : (
-          <span key={idx} style={{backgroundColor: 'red'}}>{' '}</span>
-        )
-      } else if (targetText[idx] === ' ') {
-        return (
-          <span key={idx} style={{backgroundColor: 'red'}}>{' '}</span>
-        )
-      } else {
-        return (targetText[idx]) ? (
-          <span key={idx} style={{color: 'red'}}>{targetText[idx]}</span>
-        ) : (
-          <span key={idx} style={{backgroundColor: 'red'}}>{' '}</span>
-        )
-      }
+      return (targetText[idx]) ? (
+        <span key={idx} style={{color: 'red'}}>{targetText[idx]}</span>
+      ) : (
+        <span key={idx} style={{backgroundColor: 'red'}}>{' '}</span>
+      )
     }
   });
 
@@ -51,10 +51,7 @@ class App extends Component {
   state = {
     inputText: "",
     lineFeed: [
-      "I forgot this middle line",
       "Roses are red.",
-      "Violets are blue.",
-      "This is another sentence"
     ],
     completedLines: [
     ]
@@ -71,6 +68,13 @@ class App extends Component {
         this.setState({lineFeed: this.state.lineFeed, inputText: ""})
       }
     }
+  }
+
+  restartRacer = () => {
+    this.setState({
+      lineFeed: this.state.completedLines,
+      completedLines: []
+    })
   }
 
   render() {
@@ -92,7 +96,10 @@ class App extends Component {
               } />
           </div>
         ) : (
-          <h1>DONE</h1>
+          <div>
+            <h1>DONE</h1>
+            <button onClick={this.restartRacer}>Restart</button>
+          </div>
         )
         }
       </div>
