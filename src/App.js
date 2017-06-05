@@ -8,7 +8,6 @@ const SentenceLineDisplay = ({targetText, inputText}) => {
       return <span key={idx} style={{color: 'green'}}>{char}</span>
     } else {
       if (char === ' ') {
-        console.log('in here');
         return (
           <span key={idx} style={{textDecoration: 'underline', color: 'red'}}>{targetText[idx]}</span>
         )
@@ -33,22 +32,49 @@ const SentenceLineDisplay = ({targetText, inputText}) => {
 
 class App extends Component {
   state = {
-    text: "This is a sample thingBruh This is pretty interesting",
-    input: ""
+    inputText: "",
+    lineFeed: [
+      "Roses are red.",
+      "Violets are blue.",
+      "I forgot this middle line",
+      "This is another sentence"
+    ],
+    completedLines: [
+    ]
   }
 
+  /** 
+   * This function move
+   */
+  newLine = (e) => {
+    let keyCode = e.keyCode || e.which
+    if (keyCode == 13) {
+      if (this.state.inputText === this.state.lineFeed[0]) {
+        this.state.completedLines.push(this.state.lineFeed.shift())
+        this.setState({lineFeed: this.state.lineFeed, inputText: ""})
+      }
+    }
+  }
 
   render() {
     return (
       <div className="App">
-        <SentenceLineDisplay
-          inputText={this.state.input}
-          targetText={this.state.text} />
+        { this.state.lineFeed.length > 0 ? (
+          <SentenceLineDisplay
+            inputText={this.state.inputText}
+            targetText={this.state.lineFeed[0]} />
+        ) : (
+          <h1>DONE</h1>
+        )
+        }
         <input 
-          autofocus={true}
+          autoFocus={true}
           type="text"
-          value={this.state.input} 
-          onChange={(e) => this.setState({input: e.target.value})} />
+          value={this.state.inputText} 
+          onKeyPress={this.newLine}
+          onChange={(e) => {
+            return this.setState({inputText: e.target.value})}
+          } />
       </div>
     );
   }
