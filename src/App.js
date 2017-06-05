@@ -17,56 +17,40 @@ function zipMap(lst1, lst2, fn) {
     if (x >= smaller.length) {
       payload[bi] = bigger[x];
       payload[si] = null;
-      output.push(fn(payload));
+      output.push(fn(payload, x));
     } else {
       payload[bi] = bigger[x];
       payload[si] = smaller[x];
-      output.push(fn(payload));
+      output.push(fn(payload, x));
     }
   }
   return output;
 }
 
-window.zipMap = zipMap;
 
+const SentenceLineDisplay = ({targetText, inputText, onError}) => (
+  <pre>
+    {
+      zipMap(inputText.split(''), targetText.split(''), ([inputChar, targetChar], idx) => {
+        // when we have a match
+        if (inputChar === targetChar) {
+          return <span key={idx} style={{color: 'green'}}>{targetChar}</span>
+        } 
 
-const SentenceLineDisplay = ({targetText, inputText, onError}) => {
-  let spans = inputText.split('').map((char, idx) => {
-    if (char === targetText[idx]) {
-      return <span key={idx} style={{color: 'green'}}>{char}</span>
+        // when you've done something wrong
+        if (idx < inputText.length) {
+          if (targetChar && targetChar != ' ') {
+            return <span key={idx} style={{textDecoration: 'underline', color: 'red'}}>{targetChar}</span>
+          }
+          return <span key={idx} style={{backgroundColor: 'red'}}>{' '}</span>
+        }
+
+        // relax we haven't gotten there yet.
+        return <span key={idx}>{targetChar}</span>
+      })
     }
-
-    // NOTE: causes infinite render loop
-     onError && setTimeout(() => onError(char), 0);
-
-    if (char === ' ') {
-      return (targetText[idx]) ? (
-        <span key={idx} style={{textDecoration: 'underline', color: 'red'}}>{targetText[idx]}</span>
-      ) : (
-        <span key={idx} style={{backgroundColor: 'red'}}>{' '}</span>
-      )
-    } else if (targetText[idx] === ' ') {
-      return (
-        <span key={idx} style={{backgroundColor: 'red'}}>{' '}</span>
-      )
-    } else {
-      return (targetText[idx]) ? (
-        <span key={idx} style={{color: 'red'}}>{targetText[idx]}</span>
-      ) : (
-        <span key={idx} style={{backgroundColor: 'red'}}>{' '}</span>
-      )
-    }
-  });
-
-  if (inputText.length < targetText.length) {
-    let current = targetText.substr(inputText.length, targetText.length)[0];
-    return (
-      <h3><pre>{spans}<span style={{textDecoration: 'underline'}}>{current}</span>{targetText.substr(inputText.length+1, targetText.length)}</pre></h3>
-    )
-  } else {
-    return <h3><pre>{spans}</pre></h3>
-  }
-};
+  </pre>
+);
 
 
 const PressEnter = ({a, b}) => (a.length === b.length) ? (
