@@ -33,10 +33,10 @@ const SentenceLineDisplay = ({targetText, inputText, onError}) => {
   if (inputText.length < targetText.length) {
     let current = targetText.substr(inputText.length, targetText.length)[0];
     return (
-      <h1><pre>{spans}<span style={{textDecoration: 'underline'}}>{current}</span>{targetText.substr(inputText.length+1, targetText.length)}</pre></h1>
+      <h3><pre>{spans}<span style={{textDecoration: 'underline'}}>{current}</span>{targetText.substr(inputText.length+1, targetText.length)}</pre></h3>
     )
   } else {
-    return <h1><pre>{spans}</pre></h1>
+    return <h3><pre>{spans}</pre></h3>
   }
 };
 
@@ -53,11 +53,7 @@ const PressEnter = ({a, b}) => (a.length === b.length) ? (
 class App extends Component {
   state = {
     inputText: "",
-    lineFeed: [
-      "this is ",
-      "a multi-line",
-      "sentence."
-    ],
+    lineFeed: "Search for Simple poems, articles about Simple poems, poetry blogs, or anything else Simple poem related using the PoetrySoup search engine at the top of the page.".split(",").map(s => s.trim()),
     completedLines: [
     ],
     times: [],
