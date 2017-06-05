@@ -54,17 +54,18 @@ class App extends Component {
   state = {
     inputText: "",
     lineFeed: [
-      "an out-of-date bookmark or favorite",
-      "a search engine that has an out-of-date listing for this page",
-      "a mistyped address",
-      "a page access restriction",
-      "the requested resource was not found",
-      "an error has occurred while processing your request."
+      "this is ",
+      "a multi-line",
+      "sentence."
     ],
     completedLines: [
     ],
     times: [],
     errors: {}
+  }
+
+  percentComplete = () => {
+    return (this.state.completedLines.length/(this.state.lineFeed.length+this.state.completedLines.length))*100
   }
 
   /** 
@@ -110,6 +111,7 @@ class App extends Component {
               targetText={this.state.lineFeed[0]} />
             <PressEnter a={this.state.inputText} b={this.state.lineFeed[0]} />
             <h3>Errors: {this.state.errors[this.state.completedLines.length] || 0}</h3>
+            <h3>Percent Done: {this.percentComplete()}%</h3>
             <input 
               autoFocus={true}
               type="text"
@@ -122,6 +124,7 @@ class App extends Component {
         ) : (
           <div>
             <h1>DONE</h1>
+            <h3>Percent Done: {this.percentComplete()}%</h3>
             <button onClick={this.restartRacer}>Restart</button>
           </div>
         )
