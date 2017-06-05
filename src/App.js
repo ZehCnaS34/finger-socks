@@ -2,6 +2,34 @@ import React, { Component } from 'react';
 // import logo from './logo.svg';
 import './App.css';
 
+
+function zipMap(lst1, lst2, fn) {
+  let output = [];
+  let [bigger, smaller] = lst1.length >= lst2.length ? 
+    [lst1, lst2]: 
+    [lst2, lst1];
+  let [bi, si] = lst1.length >= lst2.length ? 
+    [0, 1]: 
+    [1, 0];
+
+  for (let x = 0; x < bigger.length; x++) {
+    let payload = [undefined, undefined];
+    if (x >= smaller.length) {
+      payload[bi] = bigger[x];
+      payload[si] = null;
+      fn(payload);
+    } else {
+      payload[bi] = bigger[x];
+      payload[si] = smaller[x];
+      fn(payload);
+    }
+  }
+  return output;
+}
+
+window.zipMap = zipMap;
+
+
 const SentenceLineDisplay = ({targetText, inputText, onError}) => {
   let spans = inputText.split('').map((char, idx) => {
     if (char === targetText[idx]) {
@@ -9,7 +37,7 @@ const SentenceLineDisplay = ({targetText, inputText, onError}) => {
     }
 
     // NOTE: causes infinite render loop
-    // onError && setTimeout(() => onError(char), 0);
+     onError && setTimeout(() => onError(char), 0);
 
     if (char === ' ') {
       return (targetText[idx]) ? (
@@ -78,7 +106,7 @@ class App extends Component {
   }
 
   registerError = (char) => {
-    console.log(char)
+    // console.log(char)
     if (this.state.errors[this.state.completedLines.length]) {
     } else {
       this.state.errors[this.state.completedLines] = 0
