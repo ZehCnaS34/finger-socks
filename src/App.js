@@ -10,11 +10,11 @@ const SentenceLineDisplay = ({targetText, inputText}) => {
       if (char === ' ') {
         console.log('in here');
         return (
-          <span key={idx} style={{backgroundColor: 'red'}}>{targetText[idx]}</span>
+          <span key={idx} style={{textDecoration: 'underline', color: 'red'}}>{targetText[idx]}</span>
         )
       } else {
         return (
-          <span key={idx} style={{color: 'red'}}>{char}</span>
+          <span key={idx} style={{color: 'red'}}>{targetText[idx]}</span>
         )
       }
     }
