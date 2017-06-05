@@ -17,11 +17,11 @@ function zipMap(lst1, lst2, fn) {
     if (x >= smaller.length) {
       payload[bi] = bigger[x];
       payload[si] = null;
-      fn(payload);
+      output.push(fn(payload));
     } else {
       payload[bi] = bigger[x];
       payload[si] = smaller[x];
-      fn(payload);
+      output.push(fn(payload));
     }
   }
   return output;
