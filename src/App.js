@@ -45,8 +45,13 @@ const SentenceLineDisplay = ({targetText, inputText, onError}) => (
           return <span key={idx} style={{backgroundColor: 'red'}}>{' '}</span>
         }
 
+        // lets draw the cursor
+        if (idx == inputText.length) {
+          return <span key={idx} style={{textDecoration: 'underline'}}>{targetChar}</span>
+        }
+
         // relax we haven't gotten there yet.
-        return <span key={idx}>{targetChar}</span>
+        return <span key={idx} style={{color: 'black'}}>{targetChar}</span>
       })
     }
   </pre>
@@ -113,10 +118,12 @@ class App extends Component {
       <div className="App">
         { this.state.lineFeed.length > 0 ? (
           <div>
+            {this.state.completedLines.map(line => <pre style={{color: 'green'}}>{line}</pre>)}
             <SentenceLineDisplay
               onError={this.registerError}
               inputText={this.state.inputText}
               targetText={this.state.lineFeed[0]} />
+            {this.state.lineFeed.filter((v,i) => i != 0).map(line => <pre style={{color: 'grey'}}>{line}</pre>)}
             <PressEnter a={this.state.inputText} b={this.state.lineFeed[0]} />
             <h3>Errors: {this.state.errors[this.state.completedLines.length] || 0}</h3>
             <h3>Percent Done: {this.percentComplete()}%</h3>
