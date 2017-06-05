@@ -8,16 +8,20 @@ const SentenceLineDisplay = ({targetText, inputText}) => {
       return <span key={idx} style={{color: 'green'}}>{char}</span>
     } else {
       if (char === ' ') {
-        return (
+        return (targetText[idx]) ? (
           <span key={idx} style={{textDecoration: 'underline', color: 'red'}}>{targetText[idx]}</span>
+        ) : (
+          <span key={idx} style={{backgroundColor: 'red'}}>{' '}</span>
         )
       } else if (targetText[idx] === ' ') {
         return (
           <span key={idx} style={{backgroundColor: 'red'}}>{' '}</span>
         )
       } else {
-        return (
+        return (targetText[idx]) ? (
           <span key={idx} style={{color: 'red'}}>{targetText[idx]}</span>
+        ) : (
+          <span key={idx} style={{backgroundColor: 'red'}}>{' '}</span>
         )
       }
     }
@@ -36,6 +40,8 @@ const SentenceLineDisplay = ({targetText, inputText}) => {
 
 const PressEnter = ({a, b}) => (a.length === b.length) ? (
   <p>Press Enter</p>
+) : (a.length >= b.length) ? (
+  <p>you went overboard</p>
 ) : (
   <p>keep on going!</p>
 );
@@ -59,7 +65,7 @@ class App extends Component {
    */
   newLine = (e) => {
     let keyCode = e.keyCode || e.which
-    if (keyCode == 13) {
+    if (keyCode === 13) {
       if (this.state.inputText === this.state.lineFeed[0]) {
         this.state.completedLines.push(this.state.lineFeed.shift())
         this.setState({lineFeed: this.state.lineFeed, inputText: ""})
