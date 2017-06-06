@@ -25,9 +25,9 @@ export const WordMatcher = ({current, target}) => {
     }
 
     return  <span key={idx} style={{backgroundColor: 'grey', textDecoration: 'underline'}}>{t}</span>
-  })
+  });
   if (o.length > 0) {
-    return <span style={{marginRight: '5px', marginLeft: '5px'}}>{o}</span>;
+    return <span style={{marginRight: '5px', marginLeft: '5px'}}>{o}</span>
   }
   return null
 }
