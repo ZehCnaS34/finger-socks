@@ -5,12 +5,14 @@ console.log(zipMap);
 
 export const WordMatcher = ({current, target}) => {
   if (current.length > target.length) {
-    return <span style={{backgroundColor: 'red'}}>
-      {current}
-    </span>
+    return (
+      <span style={{backgroundColor: 'red'}}>
+        {current}
+      </span>
+    );
   }
   let o = zipMap(current.split(''), target.split(''), ([c, t], idx) => {
-    if (c == t) {
+    if (c === t) {
       return <span key={idx} style={{backgroundColor: 'green', textDecoration: 'underline'}}>{t}</span>
     }
 
