@@ -14,6 +14,33 @@ class App extends Component {
     value: ''
   }
 
+  /**
+   * ApplyPatch takes a diff and applies it to the value
+   * This is used to only register errors when wrong additions
+   * are experienced.
+   */
+  applyPatch = ({isAdd, range, value}) => {
+  }
+
+  static createPatch(oldValue, newValue) {
+    let patch = {range: [-1,-1], value: ''}
+    zipMap(oldValue.split(''), newValue.split(''), ([o, n], i) => {
+      if (n === undefined) {
+        patch.isAdd = false
+        patch.range[1] = i
+      }
+      if (o !== n) {
+        if (patch.range[0] === -1) {
+          patch.range[0] = i
+        }
+
+        patch.value = patch.value + n
+      }
+      
+    })
+    return patch
+  }
+
   componentDidMount() {
     const wordFeed = "This is a test".split(' ');
     const target = wordFeed.shift();
